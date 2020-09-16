@@ -13,6 +13,9 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var emailTextfield: UITextField!
     @IBOutlet weak var passwordTextfield: UITextField!
+    @IBOutlet weak var loginErrorMessage: UILabel!
+    @IBOutlet weak var loginErrorIcon: UIImageView!
+    
     
     
     @IBAction func loginPressed(_ sender: UIButton) {
@@ -20,7 +23,10 @@ class LoginViewController: UIViewController {
         if let email = emailTextfield.text, let password=passwordTextfield.text {
             Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
                 if let e = error {
-                    print(e.localizedDescription)
+                    self.loginErrorMessage.isHidden = false
+                    self.loginErrorMessage.textColor = #colorLiteral(red: 1, green: 0.207202822, blue: 0.2017843723, alpha: 1)
+                    self.loginErrorMessage.text = e.localizedDescription
+                    self.loginErrorIcon.isHidden = false
                 } else {
                     self.performSegue(withIdentifier: K.loginSegue, sender: self)
                 }
